@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block extra_css %}
+.trainers-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:2rem;margin-top:3rem;
+}
+.trainer-card{
+  background:var(--canopy);border:1px solid var(--border-soft);
+  border-radius:3px;overflow:hidden;transition:border-color .2s,transform .2s;
+}
+.trainer-card:hover{border-color:var(--border);transform:translateY(-4px)}
+.trainer-avatar{
+  height:200px;background:var(--bark);
+  display:flex;align-items:center;justify-content:center;
+  font-size:5rem;position:relative;overflow:hidden;
+}
+/* diagonal slash overlay on avatar */
+.trainer-avatar::before{
+  content:'';position:absolute;bottom:0;right:0;
+  width:60%;height:100%;
+  background:linear-gradient(135deg,transparent 50%,rgba(184,240,0,.05) 50%);
+}
+.trainer-avatar::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:60px;background:linear-gradient(to top,var(--canopy),transparent);
+}
+.trainer-since{
+  position:absolute;top:1rem;right:1rem;
+  font-family:var(--font-mono);font-size:.62rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--white);
+  background:rgba(0,0,0,.6);border:1px solid var(--border);
+  padding:.2rem .65rem;border-radius:30px;
+}
+.trainer-body{padding:1.75rem}
+.trainer-role{
+  font-family:var(--font-mono);font-size:.68rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:.25rem;
+}
+.trainer-name{
+  font-family:var(--font-display);font-size:2rem;
+  text-transform:uppercase;color:var(--white);margin-bottom:.25rem;
+}
+.trainer-spec{font-size:.78rem;color:var(--muted);letter-spacing:.04em;margin-bottom:.85rem;font-style:italic}
+.trainer-bio{font-size:.88rem;color:var(--muted);line-height:1.8;font-weight:300}
+
+.team-stats{background:var(--forest)}
+.tv-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5px;background:var(--border);border:1.5px solid var(--border);
+  margin-top:3rem;
+}
+.tv-card{background:var(--forest);padding:2.5rem 2rem;text-align:center}
+.tv-card .num{font-family:var(--font-display);font-size:3.5rem;color:var(--lime);line-height:1;margin-bottom:.3rem}
+.tv-card h3{font-family:var(--font-display);font-size:1.1rem;text-transform:uppercase;color:var(--white);margin-bottom:.5rem}
+.tv-card p{font-size:.85rem;color:var(--muted);line-height:1.75;font-weight:300}
+
+.trainer-cta-wrap{background:var(--void)}
+.trainer-cta-inner{
+  background:var(--canopy);border:1px solid var(--border);
+  border-radius:3px;padding:3.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:2rem;flex-wrap:wrap;
+}
+.trainer-cta-inner h3{
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,4vw,3rem);
+  text-transform:uppercase;color:var(--white);line-height:1;
+}
+.trainer-cta-inner h3 span{color:var(--lime)}
+.trainer-cta-inner p{color:var(--muted);max-width:360px;font-weight:300;font-size:.95rem;margin-top:.75rem}
+
+@media(max-width:768px){.tv-grid{grid-template-columns:1fr 1fr}}
+{% endblock %}
+
+{% block content %}
+<div class="inner-hero">
+  <div class="inner-hero-content">
+    <div class="section-eyebrow">The team</div>
+    <h1>OUR<br><span class="outline">COACHES</span></h1>
+  </div>
+</div>
+
+<!-- COACHES -->
+<section style="background:var(--void)">
+  <div class="section-eyebrow">Meet the team</div>
+  <h2 class="section-title">The Coaches<br>Behind Results</h2>
+  <p class="section-sub">Our coaches aren't just on the floor — they're watching your movement, calling your reps, and invested in your progress every session.</p>
+  <div class="trainers-grid">
+    {% for t in trainers %}
+    <div class="trainer-card">
+      <div class="trainer-avatar">
+        {{ t.emoji }}
+        <div class="trainer-since">Since {{ t.since }}</div>
+      </div>
+      <div class="trainer-body">
+        <div class="trainer-role">{{ t.role }}</div>
+        <div class="trainer-name">{{ t.name }}</div>
+        <div class="trainer-spec">{{ t.speciality }}</div>
+        <p class="trainer-bio">{{ t.bio }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- TEAM STATS -->
+<section class="team-stats">
+  <div class="section-eyebrow">By the numbers</div>
+  <h2 class="section-title">Our Team<br>at a Glance</h2>
+  <div class="tv-grid">
+    <div class="tv-card">
+      <div class="num">{{ trainers|length }}+</div>
+      <h3>Expert Coaches</h3>
+      <p>Certified, experienced, and genuinely invested in every member's progress from day one.</p>
+    </div>
+    <div class="tv-card">
+      <div class="num">300+</div>
+      <h3>Members Coached</h3>
+      <p>Hundreds of transformations across all fitness levels — beginners, athletes, and everyone in between.</p>
+    </div>
+    <div class="tv-card">
+      <div class="num">{{ gym.rating }}★</div>
+      <h3>Average Rating</h3>
+      <p>Our members consistently rate coaching quality as the top reason they stay and refer their friends.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="trainer-cta-wrap">
+  <div class="trainer-cta-inner">
+    <div>
+      <h3>Ready to Meet<br>Your <span>Coach?</span></h3>
+      <p>Book a free WOD session. We'll pair you with the right coach for your goal from your very first session.</p>
+    </div>
+    <a href="#" class="btn-primary" onclick="openModal();return false" style="white-space:nowrap">Book Free Session</a>
+  </div>
+</section>
+{% endblock %}

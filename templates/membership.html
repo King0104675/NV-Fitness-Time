@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block extra_css %}
+.plans-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.5rem;margin-top:3rem;
+}
+.plan-card{
+  background:var(--canopy);border:1px solid var(--border-soft);
+  border-radius:3px;padding:2.5rem 2rem;position:relative;
+  transition:border-color .2s,transform .2s;
+}
+.plan-card:hover{border-color:var(--border);transform:translateY(-3px)}
+.plan-card.featured{
+  border-color:var(--lime);
+  background:linear-gradient(160deg,rgba(184,240,0,.04),var(--canopy));
+}
+.plan-badge{
+  position:absolute;top:-1px;right:1.5rem;
+  background:var(--lime);color:var(--void);
+  font-family:var(--font-mono);font-size:.62rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  padding:.25rem .75rem;border-radius:0 0 3px 3px;
+}
+.plan-name{font-family:var(--font-display);font-size:1.6rem;text-transform:uppercase;color:var(--white);margin-bottom:.5rem}
+.plan-price{font-family:var(--font-display);font-size:3.2rem;color:var(--lime);line-height:1;margin:1rem 0 .2rem}
+.plan-price sup{font-size:1.4rem;vertical-align:top;margin-top:.5rem}
+.plan-period{font-family:var(--font-mono);font-size:.72rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem;display:block}
+.plan-note{font-family:var(--font-mono);font-size:.72rem;color:var(--lime-dim);font-weight:700;margin-bottom:1rem;display:block}
+.plan-features{list-style:none;margin-bottom:2rem}
+.plan-features li{
+  font-size:.88rem;color:var(--mist);padding:.45rem 0;
+  border-bottom:1px solid var(--border-soft);
+  display:flex;align-items:center;gap:.6rem;font-weight:300;
+}
+.plan-features li::before{content:'→';color:var(--lime);font-weight:700;flex-shrink:0}
+.addon-note{
+  font-size:.9rem;color:var(--mist);margin-top:1.5rem;
+  padding:1rem 1.2rem;border:1px solid var(--border);
+  border-radius:3px;background:rgba(184,240,0,.03);
+  border-left:3px solid var(--lime);
+}
+
+.compare-section{background:var(--forest)}
+.compare-table{width:100%;border-collapse:collapse;margin-top:3rem;font-size:.9rem}
+.compare-table th{
+  font-family:var(--font-mono);font-size:.72rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:1.2rem 1rem;
+  text-align:center;border-bottom:2px solid var(--lime);color:var(--white);
+}
+.compare-table th:first-child{text-align:left;color:var(--muted)}
+.compare-table th.featured-col{color:var(--lime)}
+.compare-table td{
+  padding:1rem;text-align:center;
+  border-bottom:1px solid var(--border-soft);
+  color:var(--muted);font-weight:300;
+}
+.compare-table td:first-child{text-align:left;color:var(--mist)}
+.compare-table td.featured-col{background:rgba(184,240,0,.03)}
+.check-y{color:var(--lime);font-weight:700;font-size:1.1rem}
+.check-n{color:var(--border);font-size:1.1rem}
+
+.faq-section{background:var(--void)}
+.faq-list{margin-top:3rem;display:flex;flex-direction:column;gap:1px;background:var(--border-soft);border:1px solid var(--border-soft)}
+.faq-item{background:var(--canopy)}
+.faq-q{
+  padding:1.5rem 2rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  user-select:none;transition:background .2s;
+}
+.faq-q:hover{background:var(--bark)}
+.faq-q span:first-child{
+  font-family:var(--font-display);font-size:1.05rem;
+  text-transform:uppercase;letter-spacing:.05em;color:var(--white);
+}
+.faq-arrow{color:var(--lime);font-size:1.2rem;transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(45deg)}
+.faq-a{display:none;padding:0 2rem 1.5rem;font-size:.9rem;color:var(--muted);line-height:1.85;font-weight:300}
+.faq-item.open .faq-a{display:block}
+{% endblock %}
+
+{% block content %}
+<div class="inner-hero">
+  <div class="inner-hero-content">
+    <div class="section-eyebrow">Join us</div>
+    <h1>MEMBER<br><span class="outline">SHIP</span></h1>
+  </div>
+</div>
+
+<!-- PLANS -->
+<section style="background:var(--void)">
+  <div class="section-eyebrow">Pricing</div>
+  <h2 class="section-title">Pick Your<br>Plan</h2>
+  <p class="section-sub">Flexible memberships to match your commitment. No hidden fees, no joining charges.</p>
+  <div class="plans-grid">
+    {% for plan in plans %}
+    <div class="plan-card {% if plan.featured %}featured{% endif %}">
+      {% if plan.featured %}<div class="plan-badge">Most Popular</div>{% endif %}
+      <div class="plan-name">{{ plan.name }}</div>
+      <div class="plan-price"><sup>₹</sup>{{ plan.price }}</div>
+      <span class="plan-period">{{ plan.period }}</span>
+      {% if plan.note %}<span class="plan-note">{{ plan.note }}</span>{% endif %}
+      <ul class="plan-features">
+        {% for feat in plan.features %}<li>{{ feat }}</li>{% endfor %}
+      </ul>
+      <a href="#" class="{% if plan.featured %}btn-primary{% else %}btn-ghost{% endif %}" onclick="openModal();return false" style="width:100%;text-align:center;display:block">Get Started</a>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="addon-note">
+    Personal training is not included in standard memberships. It is available as a separate monthly add-on with one-on-one sessions, a custom program, and nutrition guidance.
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="compare-section">
+  <div class="section-eyebrow">Plan comparison</div>
+  <h2 class="section-title">What's<br>Included</h2>
+  <div style="overflow-x:auto">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          {% for plan in compare_plans %}<th {% if plan.featured %}class="featured-col"{% endif %}>{{ plan.name }}</th>{% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in compare_matrix %}
+        <tr>
+          <td>{{ row['label'] }}</td>
+          {% for val in row['values'] %}
+            {% set idx = loop.index0 %}
+            <td {% if compare_plans[idx]['featured'] %}class="featured-col"{% endif %}>
+              {% if val %}<span class="check-y">✓</span>{% else %}<span class="check-n">–</span>{% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-eyebrow">Common questions</div>
+  <h2 class="section-title">FAQ</h2>
+  <div class="faq-list">
+    {% for faq in faqs %}
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <span>{{ faq.q }}</span>
+        <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">{{ faq.a }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleFaq(el){el.classList.toggle('open')}
+</script>
+{% endblock %}

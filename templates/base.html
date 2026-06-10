@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page_title }} — {{ gym.name }}</title>
+<meta name="description" content="{{ gym.name }} — {{ gym.tagline }}. {{ gym.rating }}★ rated CrossFit gym in Salt Lake, Kolkata. Open 6 AM daily.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── DESIGN TOKENS ── */
+:root {
+  --void:    #0a0f0a;
+  --forest:  #111a11;
+  --canopy:  #182018;
+  --bark:    #232d23;
+  --moss:    #2e3d2e;
+  --lime:    #b8f000;
+  --lime-dim:#8cb800;
+  --sage:    #4a6b4a;
+  --mist:    #c8d4c8;
+  --white:   #f0f5f0;
+  --muted:   #6b8f6b;
+  --border:  rgba(184,240,0,0.1);
+  --border-soft: rgba(255,255,255,0.06);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'Space Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:
+    linear-gradient(rgba(10,15,10,0.8), rgba(10,15,10,0.8)),
+    url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&h=900&fit=crop') fixed center/cover no-repeat;
+  color:var(--mist);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5vw;height:66px;
+  background:rgba(10,15,10,0.95);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:var(--font-display);font-size:1.6rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--white);line-height:1;
+}
+.nav-logo span{color:var(--lime)}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{
+  color:var(--muted);font-family:var(--font-mono);font-size:.72rem;
+  font-weight:400;letter-spacing:.06em;text-transform:uppercase;
+  transition:color .2s;padding:.25rem 0;
+  border-bottom:2px solid transparent;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--white);border-bottom-color:var(--lime)}
+.nav-links .nav-cta{
+  background:var(--lime);color:var(--void)!important;
+  padding:.45rem 1.2rem;border-radius:2px;
+  font-weight:700!important;border-bottom:none!important;
+  transition:background .2s!important;
+}
+.nav-cta:hover{background:#d4ff00!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.5rem}
+.hamburger span{display:block;width:22px;height:2px;background:var(--white);transition:.3s}
+.mobile-menu{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(10,15,10,.98);padding:2rem 5vw;z-index:99;border-bottom:1px solid var(--border)}
+.mobile-menu.open{display:block}
+.mobile-menu ul{list-style:none;display:flex;flex-direction:column;gap:1.5rem}
+.mobile-menu a{color:var(--mist);font-family:var(--font-display);font-size:2rem;text-transform:uppercase;letter-spacing:.04em}
+.mobile-menu .m-cta{color:var(--lime)!important}
+
+/* ── LAYOUT ── */
+.page-body{padding-top:66px}
+section{padding:6rem 5vw}
+
+/* diagonal slash accent used as section separator */
+.slash-divider{
+  height:60px;background:var(--forest);
+  clip-path:polygon(0 0,100% 0,100% 40%,0 100%);
+  margin-bottom:-1px;
+}
+.slash-divider.up{clip-path:polygon(0 60%,100% 0,100% 100%,0 100%)}
+
+.section-eyebrow{
+  font-family:var(--font-mono);font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--lime);font-weight:700;
+  margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem;
+}
+.section-eyebrow::before{content:'//';color:var(--lime-dim);font-size:.7rem}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.8rem,5.5vw,4.5rem);
+  text-transform:uppercase;color:var(--white);
+  line-height:.95;margin-bottom:.75rem;letter-spacing:.01em;
+}
+.section-sub{
+  color:var(--muted);max-width:480px;font-size:.95rem;
+  font-weight:300;line-height:1.8;margin-bottom:2.5rem;
+}
+.outline{color:transparent;-webkit-text-stroke:2px var(--lime)}
+
+/* ── INNER HERO ── */
+.inner-hero{
+  min-height:36vh;display:flex;align-items:flex-end;
+  padding:0 5vw 4rem;background:var(--forest);
+  position:relative;overflow:hidden;
+}
+.inner-hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(184,240,0,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(184,240,0,.03) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+.inner-hero::after{
+  content:'';position:absolute;right:0;bottom:0;
+  width:40vw;height:100%;
+  background:linear-gradient(135deg,transparent 50%,rgba(184,240,0,.04) 50%);
+  pointer-events:none;
+}
+.inner-hero-content{position:relative;z-index:1}
+.inner-hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(3.5rem,8vw,6.5rem);
+  text-transform:uppercase;color:var(--white);
+  line-height:.92;letter-spacing:.01em;
+}
+
+/* ── BUTTONS ── */
+.btn-primary{
+  background:var(--lime);color:var(--void);
+  padding:.85rem 2rem;font-family:var(--font-display);
+  font-size:1.05rem;font-weight:400;letter-spacing:.1em;
+  text-transform:uppercase;border:none;border-radius:2px;
+  cursor:pointer;display:inline-block;transition:background .2s,transform .15s;
+}
+.btn-primary:hover{background:#d4ff00;transform:translateY(-2px)}
+.btn-ghost{
+  color:var(--mist);padding:.85rem 2rem;
+  font-family:var(--font-display);font-size:1.05rem;
+  font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.15);border-radius:2px;
+  cursor:pointer;display:inline-block;transition:border-color .2s,color .2s;
+}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime)}
+
+/* ── CTA STRIP ── */
+.cta-strip{
+  background:var(--lime);padding:5rem 5vw;text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-strip::before{
+  content:'NV';position:absolute;
+  font-family:var(--font-display);font-size:20rem;font-weight:400;
+  color:rgba(0,0,0,.05);top:50%;left:50%;
+  transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;
+}
+.cta-strip .section-title{color:var(--void);margin-bottom:.75rem}
+.cta-strip p{color:rgba(0,0,0,.6);max-width:420px;margin:0 auto 2rem;font-size:.95rem;font-weight:400}
+.btn-dark{
+  background:var(--void);color:var(--lime);
+  padding:.9rem 2.2rem;font-family:var(--font-display);
+  font-size:1.05rem;letter-spacing:.1em;text-transform:uppercase;
+  border:none;border-radius:2px;cursor:pointer;display:inline-block;transition:background .2s;
+}
+.btn-dark:hover{background:#1a2a1a}
+
+/* ── FOOTER ── */
+footer{background:var(--void);padding:4rem 5vw 2rem;border-top:1px solid var(--border-soft)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand .nav-logo{font-size:1.6rem;margin-bottom:1rem;display:block}
+.footer-brand p{font-size:.85rem;color:var(--muted);line-height:1.8;max-width:260px;font-weight:300}
+.footer-col h4{
+  font-family:var(--font-mono);font-size:.7rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--lime);
+  margin-bottom:1.2rem;
+}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.footer-col a{font-size:.85rem;color:var(--muted);transition:color .2s;font-weight:300}
+.footer-col a:hover{color:var(--lime)}
+.footer-bottom{
+  border-top:1px solid var(--border-soft);padding-top:1.5rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+}
+.footer-bottom p{font-size:.75rem;color:var(--muted);font-family:var(--font-mono)}
+.social-links{display:flex;gap:.8rem}
+.social-link{
+  width:34px;height:34px;background:var(--bark);
+  border:1px solid var(--border-soft);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;transition:border-color .2s,background .2s;
+}
+.social-link:hover{border-color:var(--lime);background:rgba(184,240,0,.1)}
+
+/* ── MODAL ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.9);z-index:200;
+  align-items:center;justify-content:center;padding:1rem;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--forest);border:1px solid var(--border);
+  border-radius:4px;padding:2.5rem;width:100%;max-width:440px;position:relative;
+}
+.modal-close{
+  position:absolute;top:1rem;right:1.25rem;
+  background:none;border:none;color:var(--muted);font-size:1.2rem;
+  cursor:pointer;
+}
+.modal-close:hover{color:var(--lime)}
+.modal h3{
+  font-family:var(--font-display);font-size:2.2rem;
+  text-transform:uppercase;color:var(--white);margin-bottom:.3rem;
+}
+.modal > p{font-size:.85rem;color:var(--muted);margin-bottom:1.5rem}
+.form-field{margin-bottom:1rem}
+.form-field label{
+  display:block;font-family:var(--font-mono);
+  font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.4rem;
+}
+.form-field input,.form-field select,.form-field textarea{
+  width:100%;background:var(--bark);border:1px solid var(--border-soft);
+  border-radius:2px;padding:.75rem 1rem;color:var(--white);
+  font-size:.9rem;font-family:var(--font-body);outline:none;
+  transition:border-color .2s;resize:vertical;
+}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--lime)}
+.form-field select option{background:var(--bark)}
+.form-submit{
+  width:100%;background:var(--lime);color:var(--void);
+  padding:.9rem;font-family:var(--font-display);font-size:1.1rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  border:none;border-radius:2px;cursor:pointer;margin-top:.5rem;
+  transition:background .2s;
+}
+.form-submit:hover{background:#d4ff00}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .footer-brand{grid-column:1/-1}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+}
+@media(max-width:580px){.footer-grid{grid-template-columns:1fr}}
+{% block extra_css %}{% endblock %}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="{{ url_for('index') }}" class="nav-logo">NV<span>FITNESS TIME</span></a>
+  <ul class="nav-links">
+    {% for p in pages %}
+    <li><a href="{{ p.url }}" {% if p.url == current_page %}class="active"{% endif %}>{{ p.nav }}</a></li>
+    {% endfor %}
+    <li><a href="#" class="nav-cta" onclick="openModal();return false">Free Trial</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()" id="burger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    {% for p in pages %}
+    <li><a href="{{ p.url }}" onclick="toggleMenu()">{{ p.nav }}</a></li>
+    {% endfor %}
+    <li><a href="#" class="m-cta" onclick="openModal();toggleMenu();return false">→ Free Trial</a></li>
+  </ul>
+</div>
+
+<div class="page-body">
+{% block content %}{% endblock %}
+</div>
+
+<!-- CTA STRIP -->
+{% block cta_strip %}
+<section class="cta-strip">
+  <div class="section-eyebrow" style="color:rgba(0,0,0,.4);justify-content:center"><span style="color:rgba(0,0,0,.3)">//</span> Limited spots available</div>
+  <h2 class="section-title" style="color:var(--void)">Try Your First<br>WOD Free</h2>
+  <p>Come in, meet the coaches, do a session. No pressure. Just results.</p>
+  <a href="#" class="btn-dark" onclick="openModal();return false">Book Free Session</a>
+</section>
+{% endblock %}
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="nav-logo">NV<span>FITNESS TIME</span></span>
+      <p>Salt Lake's CrossFit & functional fitness community. Expert coaching, performance programming, and a crew that pushes you further every session.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        {% for p in pages %}
+        <li><a href="{{ p.url }}">{{ p.nav }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Hours</h4>
+      <ul>
+        <li><a>Mon–Sun: 6 AM – 10 PM</a></li>
+        <li><a>Open every day</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:{{ gym.phone_raw }}">{{ gym.phone }}</a></li>
+        <li><a href="{{ gym.whatsapp }}" target="_blank">WhatsApp Us</a></li>
+        <li><a href="{{ gym.maps_url }}" target="_blank">Get Directions</a></li>
+        <li><a href="{{ url_for('contact') }}">Send a Message</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 {{ gym.name }} · {{ gym.address }}, {{ gym.city }}</p>
+    <div class="social-links">
+      <a href="{{ gym.instagram }}" class="social-link" title="Instagram">📸</a>
+      <a href="{{ gym.whatsapp }}" class="social-link" title="WhatsApp" target="_blank">💬</a>
+    </div>
+  </div>
+</footer>
+
+<!-- TRIAL MODAL -->
+<div class="modal-overlay" id="trialModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Free Trial</h3>
+    <p>Fill in your details and we'll reach out to schedule your session.</p>
+    <div id="trialForm">
+      <div class="form-field"><label>Your Name</label><input type="text" placeholder="Full name"></div>
+      <div class="form-field"><label>Phone Number</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+      <div class="form-field">
+        <label>Goal</label>
+        <select>
+          <option>General Fitness</option>
+          <option>CrossFit & WODs</option>
+          <option>Weight Loss</option>
+          <option>Strength & Lifting</option>
+          <option>Body Transformation</option>
+          <option>Personal Training</option>
+        </select>
+      </div>
+      <button class="form-submit" onclick="submitForm()">Book My Free Session →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('trialModal').classList.add('open')}
+function closeModal(){document.getElementById('trialModal').classList.remove('open')}
+function submitForm(){
+  var name  = document.querySelector('#trialForm input[type="text"]').value.trim();
+  var phone = document.querySelector('#trialForm input[type="tel"]').value.trim();
+  var goal  = document.querySelector('#trialForm select').value;
+  if(!name||!phone){alert('Please fill in your name and phone number.');return;}
+  var time = new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'});
+  var msg = '🏋️ *New Free Trial Booking — NV Fitness Time*\n\n'
+          + '👤 *Name:* '+ name +'\n'
+          + '📞 *Phone:* '+ phone +'\n'
+          + '🎯 *Goal:* '+ goal +'\n'
+          + '🕐 *Submitted:* '+ time +'\n\n'
+          + '_Please call the member within 24 hours to confirm their session._';
+  window.open('https://wa.me/8798561817?text='+encodeURIComponent(msg),'_blank');
+  closeModal();
+}
+function toggleMenu(){
+  const m=document.getElementById('mobileMenu');
+  const b=document.getElementById('burger');
+  m.classList.toggle('open');
+  b.style.opacity=m.classList.contains('open')?'0.6':'1';
+}
+const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const today=days[new Date().getDay()];
+document.querySelectorAll('[data-day]').forEach(el=>{if(el.dataset.day===today)el.classList.add('today-row')});
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

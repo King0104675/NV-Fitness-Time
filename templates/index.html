@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% block extra_css %}
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:0 5vw;position:relative;overflow:hidden;
+  background:var(--forest);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(184,240,0,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(184,240,0,.03) 1px,transparent 1px);
+  background-size:50px 50px;
+  animation:pulse 10s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+/* big diagonal slash behind hero content */
+.hero::after{
+  content:'';position:absolute;right:-5%;top:0;
+  width:55vw;height:100%;
+  background:linear-gradient(135deg,transparent 45%,rgba(184,240,0,.025) 45%);
+  pointer-events:none;
+}
+.hero-content{position:relative;z-index:1;max-width:700px;padding-top:66px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.7rem;
+  font-family:var(--font-mono);font-size:.72rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--lime);
+  margin-bottom:1.5rem;
+}
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(4.5rem,11vw,9.5rem);
+  font-weight:400;line-height:.88;text-transform:uppercase;
+  color:var(--white);letter-spacing:.01em;margin-bottom:1.5rem;
+}
+.hero-title .outline{color:transparent;-webkit-text-stroke:2px var(--lime)}
+.hero-sub{
+  font-size:1rem;color:var(--muted);max-width:420px;
+  line-height:1.8;margin-bottom:2.5rem;font-weight:300;
+}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.hero-stats{
+  display:flex;gap:3rem;margin-top:4rem;
+  padding-top:2.5rem;border-top:1px solid var(--border);
+}
+.stat-num{
+  font-family:var(--font-display);font-size:2.6rem;
+  color:var(--white);line-height:1;
+}
+.stat-num span{color:var(--lime)}
+.stat-label{
+  font-family:var(--font-mono);font-size:.65rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-top:.3rem;
+}
+.rating-badge{
+  position:absolute;bottom:8vh;right:5vw;
+  background:var(--bark);border:1px solid var(--border);
+  border-radius:4px;padding:1.2rem 1.6rem;text-align:center;z-index:1;
+}
+.rating-stars{color:var(--lime);font-size:1rem;letter-spacing:2px}
+.rating-num-big{
+  font-family:var(--font-display);font-size:2.8rem;
+  color:var(--white);line-height:1;margin:.2rem 0;
+}
+.rating-source{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+
+/* WHY */
+.why{background:var(--canopy)}
+.why-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:1.5px;background:var(--border);border:1.5px solid var(--border);
+  margin-top:3rem;
+}
+.why-card{background:var(--canopy);padding:2.5rem 2rem;transition:background .2s}
+.why-card:hover{background:var(--bark)}
+.why-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.why-card h3{
+  font-family:var(--font-display);font-size:1.3rem;
+  text-transform:uppercase;letter-spacing:.05em;
+  color:var(--white);margin-bottom:.5rem;
+}
+.why-card p{font-size:.88rem;color:var(--muted);line-height:1.75;font-weight:300}
+
+/* PROGRAMS PREVIEW */
+.programs-preview{background:var(--forest)}
+.prog-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:1.5rem;margin-top:3rem;
+}
+.prog-card{
+  background:var(--canopy);border:1px solid var(--border-soft);
+  border-radius:3px;padding:2rem;
+  transition:border-color .2s,transform .2s;
+}
+.prog-card:hover{border-color:var(--border);transform:translateY(-3px)}
+.prog-icon{font-size:2rem;margin-bottom:.75rem}
+.prog-level{
+  font-family:var(--font-mono);font-size:.62rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:.4rem;
+}
+.prog-card h3{
+  font-family:var(--font-display);font-size:1.35rem;
+  text-transform:uppercase;color:var(--white);margin-bottom:.2rem;
+}
+.prog-duration{font-family:var(--font-mono);font-size:.72rem;color:var(--muted);margin-bottom:.7rem}
+.prog-card p{font-size:.85rem;color:var(--muted);line-height:1.75;font-weight:300}
+
+/* REVIEWS */
+.reviews-strip{background:var(--void)}
+.reviews-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1.5rem;margin-top:3rem;
+}
+.review-card{
+  background:var(--forest);border:1px solid var(--border-soft);
+  border-radius:3px;padding:2rem;position:relative;overflow:hidden;
+}
+.review-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--lime);transform:scaleX(0);transform-origin:left;
+  transition:transform .3s;
+}
+.review-card:hover::before{transform:scaleX(1)}
+.review-stars-s{color:var(--lime);font-size:.85rem;margin-bottom:1rem}
+.review-text{
+  font-size:.9rem;color:var(--mist);line-height:1.85;
+  font-weight:300;font-style:italic;margin-bottom:1.5rem;
+}
+.reviewer-name{
+  font-family:var(--font-display);font-size:1rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--white);
+}
+.reviewer-tag{font-family:var(--font-mono);font-size:.68rem;color:var(--muted);margin-top:.2rem}
+
+@media(max-width:768px){
+  .hero-stats{gap:2rem;flex-wrap:wrap}
+  .rating-badge{position:static;margin-top:2rem;display:inline-block}
+}
+{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Salt Lake · Kolkata · Est. {{ gym.year_founded }}</div>
+    <h1 class="hero-title">MOVE<br>HARD.<br><span class="outline">GROW.</span></h1>
+    <p class="hero-sub">{{ gym.tagline }}. Expert coaches, functional programming, and a community that makes every session count.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" onclick="openModal();return false">Try a Free WOD</a>
+      <a href="{{ url_for('programs') }}" class="btn-ghost">Explore Programs</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">{{ gym.rating }}<span>★</span></div><div class="stat-label">Google Rating</div></div>
+      <div><div class="stat-num">{{ gym.review_count }}<span>+</span></div><div class="stat-label">Reviews</div></div>
+      <div><div class="stat-num">6<span>AM</span></div><div class="stat-label">Opens Daily</div></div>
+    </div>
+  </div>
+  <div class="rating-badge">
+    <div class="rating-stars">★★★★★</div>
+    <div class="rating-num-big">{{ gym.rating }}</div>
+    <div class="rating-source">Google Reviews</div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="section-eyebrow">Why train with us</div>
+  <h2 class="section-title">Everything You<br>Need to Perform</h2>
+  <p class="section-sub">Full CrossFit setup, functional rig, expert coaches, and a community that gets results.</p>
+  <div class="why-grid">
+    {% for f in facilities %}
+    <div class="why-card">
+      <span class="why-icon">{{ f.icon }}</span>
+      <h3>{{ f.name }}</h3>
+      <p>{{ f.desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- PROGRAMS PREVIEW -->
+<section class="programs-preview">
+  <div class="section-eyebrow">Training Programs</div>
+  <h2 class="section-title">Find Your<br><span class="outline">Program</span></h2>
+  <p class="section-sub">From beginner Foundations to advanced WOD cycles — every program is coached and goal-driven.</p>
+  <div class="prog-grid">
+    {% for prog in programs %}
+    <div class="prog-card">
+      <div class="prog-icon">{{ prog.icon }}</div>
+      <div class="prog-level">{{ prog.level }}</div>
+      <h3>{{ prog.name }}</h3>
+      <div class="prog-duration">{{ prog.duration }}</div>
+      <p>{{ prog.desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="margin-top:2.5rem"><a href="{{ url_for('programs') }}" class="btn-ghost">View All Programs →</a></div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-strip">
+  <div class="section-eyebrow">Member Reviews</div>
+  <h2 class="section-title">Real Members,<br>Real Progress</h2>
+  <p class="section-sub">{{ gym.rating }} stars across {{ gym.review_count }}+ Google reviews. Here's what our community says.</p>
+  <div class="reviews-grid">
+    {% for r in reviews[:3] %}
+    <div class="review-card">
+      <div class="review-stars-s">{% for i in range(r.stars) %}★{% endfor %}</div>
+      <p class="review-text">{{ r.text }}</p>
+      <div class="reviewer-name">{{ r.name }}</div>
+      <div class="reviewer-tag">{{ r.tag }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="margin-top:2.5rem;text-align:center">
+    <a href="{{ gym.maps_url }}" target="_blank" class="btn-ghost">Read All {{ gym.review_count }}+ Reviews →</a>
+  </div>
+</section>
+{% endblock %}
